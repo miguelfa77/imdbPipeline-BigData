@@ -12,16 +12,18 @@ services:
       MYSQL_ROOT_PASSWORD: password
     ports:
       # Maps local mysql port to container mysql port
-      - 127.0.0.1:3307:3306
+      - "3308:3306"
+    networks:
+    - etl_network
       # for persistance: maps my-db docker volume to where we want the data stored and persisted
     volumes:
       - my-db:/var/lib/mysql
-  
   etl:
     build:
       context: ./etl
       dockerfile: Dockerfile
-    command: ["python", "etl_script.py"]
+    # /bin/sh -c "python etl_script.py; sleep infinity"
+    command: ["python", "-u", etl_script.py"]
     networks:
       - etl_network
     depends_on:
@@ -32,6 +34,5 @@ volumes:
 
 networks:
   etl_network:
-    driver: bridge
 
   

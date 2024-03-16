@@ -2,7 +2,7 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-RUN pip install mysql-connector-python pandas requests
+RUN pip install pandas requests mysql-connector-python sqlalchemy
 
 # Copy the ELT script
 COPY etl_script.py .
