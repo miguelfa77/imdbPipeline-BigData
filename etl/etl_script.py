@@ -54,7 +54,7 @@ for file_name in file_names:
     response = requests.get(url)
     df = pd.read_csv(io.BytesIO(response.content), compression='gzip', sep='\t', low_memory=False, dtype='str', na_values="\\N")
     try:
-        df.to_sql(name=file_name, con=engine, if_exists='replace')
+        df.to_sql(name=file_name, con=engine, if_exists='replace', chunksize=1000)
         print(f'Filename {file_name}: Converted to SQL')
     except Exception as e:
         print("Error when converting df to mySQL:", e)
