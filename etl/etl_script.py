@@ -54,7 +54,7 @@ CHUNKSIZE = 100000
 for file_name in file_names.keys():
     url = f'https://datasets.imdbws.com/{file_name}.tsv.gz'
     response = requests.get(url)
-    chunks = pd.read_csv(io.BytesIO(response.content), compression='gzip', sep='\t', low_memory=False, dtype='str', na_values="\\N",chunksize=CHUNKSIZE)
+    chunks = pd.read_csv(io.BytesIO(response.content), compression='gzip', sep='\t', low_memory=False, na_values="\\N",chunksize=CHUNKSIZE)
     first_chunk = True
     for chunk in chunks:
         try:
