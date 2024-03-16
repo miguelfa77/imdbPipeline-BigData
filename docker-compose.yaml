@@ -22,7 +22,6 @@ services:
     build:
       context: ./etl
       dockerfile: Dockerfile
-    # /bin/sh -c "python etl_script.py; sleep infinity"
     command: ["python", "etl_script.py"]
     networks:
       - etl_network

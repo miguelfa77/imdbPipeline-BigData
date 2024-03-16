@@ -7,6 +7,7 @@ import time
 
 print("Initiating ETL pipeline...")
 
+
 destination_config = {
     'dbname': 'imdb',
     'user': 'user',
@@ -39,31 +40,32 @@ if not engine:
 
 
 base_url = 'https://datasets.imdbws.com/'
-file_names = [
-    'name.basics',
-    'title.akas',
-    'title.basics',
-    'title.crew',
-    'title.episode',
-    'title.principals',
-    'title.ratings'
-]
+file_names = {
+    'name.basics': 'name_basics',
+    'title.akas': 'title_akas',
+    'title.basics': 'title_basics',
+    'title.crew': 'title_crew',
+    'title.episode': 'title_episode',
+    'title.principals': 'title_principals',
+    'title.ratings': 'title_ratings'
+}
 
-for file_name in file_names:
+CHUNKSIZE = 100000
+for file_name in file_names.keys():
     url = f'https://datasets.imdbws.com/{file_name}.tsv.gz'
     response = requests.get(url)
-    chunks = pd.read_csv(io.BytesIO(response.content), compression='gzip', sep='\t', low_memory=False, dtype='str', na_values="\\N",chunksize=1000)
+    chunks = pd.read_csv(io.BytesIO(response.content), compression='gzip', sep='\t', low_memory=False, dtype='str', na_values="\\N",chunksize=CHUNKSIZE)
     first_chunk = True
     for chunk in chunks:
         try:
             if first_chunk:
-                chunk.to_sql(name=file_name, con=engine, if_exists='replace', index=False, chunksize=5000)
+                chunk.to_sql(name=file_names[file_name], con=engine, if_exists='replace', index=False, chunksize=CHUNKSIZE)
                 first_chunk = False
             else:
-                chunk.to_sql(name=file_name, con=engine, if_exists='append', index=False, chunksize=5000)
+                chunk.to_sql(name=file_names[file_name], con=engine, if_exists='append', index=False, chunksize=CHUNKSIZE)
         except Exception as e:
             print("Error when converting df to mySQL:", e)
-            break  # Stop processing this file on error
+            break
     print(f'Filename {file_name}: Converted to SQL')
 
 
