@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: name_basics
+  - description:
+  - columns: 
+
+  - name: title_akas
+  - description:
+  - columns:
+
+  - name: title_basics
+  - description:
+  - columns:
+
+  - name: title_crew
+  - description:
+  - columns:
+
+  - name: title_episode
+  - description:
+  - columns:
+
+  - name: title_principals
+  - description:
+  - columns:
+
+  - name: title_ratings
+  - description:
+  - columns:
