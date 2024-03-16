@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  destination_mysql:
+    platform: linux/x86_64
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: imdb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      # Maps local mysql port to container mysql port
+      - 127.0.0.1:3307:3306
+      # for persistance: maps my-db docker volume to where we want the data stored and persisted
+    volumes:
+      - my-db:/var/lib/mysql
+  
+  etl:
+    build:
+      context: ./etl
+      dockerfile: Dockerfile
+    command: ["python", "etl_script.py"]
+    networks:
+      - etl_network
+    depends_on:
+      - destination_mysql
+
+volumes:
+  my-db:
+
+networks:
+  etl_network:
+    driver: bridge
+
+  
