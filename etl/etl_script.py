@@ -52,12 +52,19 @@ file_names = [
 for file_name in file_names:
     url = f'https://datasets.imdbws.com/{file_name}.tsv.gz'
     response = requests.get(url)
-    df = pd.read_csv(io.BytesIO(response.content), compression='gzip', sep='\t', low_memory=False, dtype='str', na_values="\\N")
-    try:
-        df.to_sql(name=file_name, con=engine, if_exists='replace', chunksize=1000)
-        print(f'Filename {file_name}: Converted to SQL')
-    except Exception as e:
-        print("Error when converting df to mySQL:", e)
+    chunks = pd.read_csv(io.BytesIO(response.content), compression='gzip', sep='\t', low_memory=False, dtype='str', na_values="\\N",chunksize=1000)
+    first_chunk = True
+    for chunk in chunks:
+        try:
+            if first_chunk:
+                chunk.to_sql(name=file_name, con=engine, if_exists='replace', index=False, chunksize=5000)
+                first_chunk = False
+            else:
+                chunk.to_sql(name=file_name, con=engine, if_exists='append', index=False, chunksize=5000)
+        except Exception as e:
+            print("Error when converting df to mySQL:", e)
+            break  # Stop processing this file on error
+    print(f'Filename {file_name}: Converted to SQL')
 
 
 print("Successfully ran ETL pipeline")
