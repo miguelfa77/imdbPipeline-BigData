@@ -1,9 +1,1 @@
-## Datasets
-
-### title_basics
-movies which have not yet been released
-
-### title_ratings
-movies which have been released
-
-### 
+A simple ETL Pipeline for ingesting imdb datasets into mySQL using Docker.
