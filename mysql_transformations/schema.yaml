@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: name_basics
-  - description:
+  - description: ""
   - columns: 
 
   - name: title_akas
