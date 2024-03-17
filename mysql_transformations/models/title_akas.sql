@@ -22,3 +22,8 @@ FROM {{ ref('title_akas') }}
 {% set pk_columns = ["titleId"] %}
 ALTER TABLE {{ this }} 
 ADD CONSTRAINT pk_{{ this }} PRIMARY KEY ({{ pk_columns | join(', ') }});
+
+-- Define foreign key constraint
+ALTER TABLE {{ this }}
+ADD CONSTRAINT fk_{{ this }}_title_akas FOREIGN KEY (tconst) 
+REFERENCES {{ ref('source_title_akas') }} (tconst);
