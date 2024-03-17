@@ -5,7 +5,7 @@
 
 -- SQL query to transform and cast data types
 SELECT
-    CAST(titleId AS VARCHAR) AS titleId,
+    CAST(titleId AS VARCHAR) AS tconst,
     CAST(ordering AS INT) AS ordering,
     CAST(title AS VARCHAR) AS title,
     CAST(region AS VARCHAR) AS region,
@@ -18,12 +18,22 @@ SELECT
     END AS isOriginalTitle
 FROM {{ ref('title_akas') }}
 
+
+
+SET foreign_key_checks = 0;
+
 -- Define primary key constraint
-{% set pk_columns = ["titleId"] %}
 ALTER TABLE {{ this }} 
-ADD CONSTRAINT pk_{{ this }} PRIMARY KEY ({{ pk_columns | join(', ') }});
+ADD CONSTRAINT pk_{{ this }} PRIMARY KEY (tconst);
 
 -- Define foreign key constraint
 ALTER TABLE {{ this }}
 ADD CONSTRAINT fk_{{ this }}_title_akas FOREIGN KEY (tconst) 
-REFERENCES {{ ref('source_title_akas') }} (tconst);
+REFERENCES {{ ref('title_ratings') }} (tconst);
+
+ALTER TABLE {{ this }}
+ADD CONSTRAINT fk_{{ this }}_title_akas FOREIGN KEY (ordering) 
+REFERENCES {{ ref('title_principals') }} (ordering);
+
+SET foreign_key_checks = 1;
+

@@ -13,10 +13,13 @@ SELECT
     CAST(characters AS VARCHAR) AS characters
 FROM {{ ref('title_principals') }}
 
+
+
+SET foreign_key_checks = 0;
+
 -- Define primary key constraint
-{% set pk_columns = ["tconst"] %}
 ALTER TABLE {{ this }} 
-ADD CONSTRAINT pk_{{ this }} PRIMARY KEY ({{ pk_columns | join(', ') }});
+ADD CONSTRAINT pk_{{ this }} PRIMARY KEY (tconst, nconst);
 
 -- Define foreign key constraints
 ALTER TABLE {{ this }}
@@ -26,3 +29,5 @@ REFERENCES {{ ref('title_ratings') }} (tconst);
 ALTER TABLE {{ this }}
 ADD CONSTRAINT fk_{{ this }}_title_principals FOREIGN KEY (nconst) 
 REFERENCES {{ ref('name_basics') }} (nconst);
+
+SET foreign_key_checks = 1;

@@ -19,7 +19,11 @@ SELECT
     CAST(genres AS VARCHAR) AS genres
 FROM {{ ref('title_basics') }}
 
+
+SET foreign_key_checks = 0;
+
 -- Define primary key constraint
-{% set pk_columns = ["tconst"] %}
 ALTER TABLE {{ this }} 
-ADD CONSTRAINT pk_{{ this }} PRIMARY KEY ({{ pk_columns | join(', ') }});
+ADD CONSTRAINT pk_{{ this }} PRIMARY KEY (tconst, genres);
+
+SET foreign_key_checks = 1;

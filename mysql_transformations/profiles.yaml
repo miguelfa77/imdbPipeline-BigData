@@ -1,0 +1,12 @@
+default:
+  target: dev
+  outputs:
+    dev:
+      type: mysql
+      server: localhost
+      port: 3308  # optional
+      database: imdb # optional, should be same as schema
+      schema: imdb
+      username: user
+      password: password
+      driver: MySQL ODBC 8.0 ANSI Driver

@@ -10,12 +10,17 @@ SELECT
     CAST(writers AS VARCHAR) AS writers
 FROM {{ ref('source_title_crew') }}
 
+
+
+SET foreign_key_checks = 0;
+
 -- Define primary key constraint
-{% set pk_columns = ["tconst"] %}
 ALTER TABLE {{ this }} 
-ADD CONSTRAINT pk_{{ this }} PRIMARY KEY ({{ pk_columns | join(', ') }});
+ADD CONSTRAINT pk_{{ this }} PRIMARY KEY (tconst);
 
 -- Define foreign key constraint
 ALTER TABLE {{ this }}
 ADD CONSTRAINT fk_{{ this }}_title_crew FOREIGN KEY (tconst) 
 REFERENCES {{ ref('title_ratings') }} (tconst);
+
+SET foreign_key_checks = 1;

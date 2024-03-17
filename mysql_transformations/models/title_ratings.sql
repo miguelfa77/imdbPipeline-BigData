@@ -10,7 +10,12 @@ SELECT
     CAST(numVotes AS BIGINT) AS numVotes
 FROM {{ ref('title_ratings') }}
 
+
+
+SET foreign_key_checks = 0;
+
 -- Define primary key constraint
-{% set pk_columns = ["tconst"] %}
 ALTER TABLE {{ this }} 
-ADD CONSTRAINT pk_{{ this }} PRIMARY KEY ({{ pk_columns | join(', ') }});
+ADD CONSTRAINT pk_{{ this }} PRIMARY KEY (tconst);
+
+SET foreign_key_checks = 1;

@@ -2,29 +2,68 @@ version: 2
 
 models:
   - name: name_basics
-  - description: ""
+  - description: "Contains info for names"
   - columns: 
+    - nconst
+    - primaryName
+    - birthYear
+    - deathYear
+    - primaryProfession
+    - knownForTitles
 
   - name: title_akas
-  - description:
+  - description: "Contains info for titles"
   - columns:
+    - tconst
+    - ordering
+    - title
+    - region
+    - language
+    - types
+    - attributes
+    - isOriginalTitle
 
   - name: title_basics
-  - description:
+  - description: "Contains info for unreleased titles"
   - columns:
+    - tconst
+    - titleType
+    - primaryTitle
+    - originalTitle
+    - isAdult
+    - startYear
+    - endYear
+    - runtimeMinutes
+    - genres
 
   - name: title_crew
-  - description:
+  - description: "Contains director and writer info for all titles"
   - columns:
+    - tconst
+    - directors
+    - writers
 
   - name: title_episode
-  - description:
+  - description: "Contains info for TV episode titles"
   - columns:
+    - tconst
+    - parentTconst
+    - seasonNumber
+    - episodeNumber
 
   - name: title_principals
-  - description:
+  - description: "Contains info for cast/crew for titles"
   - columns:
+    - tconst
+    - ordering
+    - nconst
+    - category
+    - job
+    - characters
 
   - name: title_ratings
-  - description:
+  - description: "Contains info for rating and votes for titles"
   - columns:
+    - tconst
+    - averageRating
+    - numVotes
