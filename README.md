@@ -1,6 +1,5 @@
-A simple ETL Pipeline for ingesting imdb datasets into mySQL using Docker.
+A simple ETL Pipeline for ingesting imdb datasets into mySQL using Docker and transformations with dbt.
 
 ### Integration Next Steps:
-- Add Schema with keys to create ER model using dbt (Priority: High)
 - Add dataclass to store url's for cleanness/readability (Priority: Low)
 - Add logger (Priority: Low)
